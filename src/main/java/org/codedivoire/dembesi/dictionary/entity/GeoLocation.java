@@ -1,5 +1,7 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import org.codedivoire.dembesi.dictionary.model.State;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -25,6 +27,9 @@ public class GeoLocation {
 
     @Column(name = "localisation")
     private String localisation;
+
+    @Column(name = "status")
+    private State state;
 
     @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
     @JoinColumn(name="nom_id")

@@ -1,5 +1,7 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import org.codedivoire.dembesi.dictionary.model.State;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -22,6 +24,9 @@ public class Etymology {
     @NotBlank
     @NotEmpty
     private String origin;
+
+    @Column(name = "status")
+    private State state;
 
     @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
     @JoinColumn(name="nom_id")

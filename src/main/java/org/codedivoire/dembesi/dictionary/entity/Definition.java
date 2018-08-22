@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.codedivoire.dembesi.dictionary.model.State;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -34,6 +35,9 @@ public class Definition {
 
     @Column(name = "contenu_langue_local")
     private String localLanguageContent;
+
+    @Column(name = "status")
+    private State state;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)

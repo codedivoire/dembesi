@@ -1,6 +1,7 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
 import org.codedivoire.dembesi.dictionary.model.MediaType;
+import org.codedivoire.dembesi.dictionary.model.State;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +31,10 @@ public class MediaLink {
 
     @Column(name = "type")
     private MediaType mediaType;
+
+    @Column(name = "status")
+    private State state;
+
 
     @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
     @JoinColumn(name="nom_id")
