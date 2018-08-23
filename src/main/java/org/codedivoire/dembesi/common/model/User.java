@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * @author  Christian Amani on 23/08/2018.
+ * @author Christian Amani on 23/08/2018.
  */
 @Embeddable
 public class User {
