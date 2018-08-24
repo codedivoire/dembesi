@@ -82,6 +82,16 @@ public class Account implements UserDetails{
         this.stateAccount = stateAccount;
     }
 
+    public void setMail(String mail) {
+        if(user != null) {
+            user.setMail(mail);
+        }
+    }
+
+    public String getMail() {
+        return user.getMail();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(accountDetails != null) {

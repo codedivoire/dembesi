@@ -9,4 +9,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Long> {
+
+    Account findByUser_MailAndAccountDetails_Password(String mail, String password);
+
+    Account findByUser_Mail(String mail);
+
 }

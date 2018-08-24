@@ -29,7 +29,7 @@ public class User {
     @Column(name = "genre")
     private String genre;
 
-    @Column(name = "mail")
+    @Column(name = "mail",unique = true)
     @Email
     private String mail;
 

@@ -5,6 +5,9 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Christian Amani on 23/08/2018.
@@ -14,9 +17,13 @@ import javax.persistence.Embeddable;
 public class AccountDetails {
 
     @Column(name = "mot_passe")
+    @NotNull
+    @NotEmpty
+    @NotBlank
     private String password;
 
     @Column(name = "autorite")
+    @NotNull
     private String authorities;
 
 
