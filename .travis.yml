@@ -6,9 +6,9 @@ install: true
 services:
   - postgresql
 addons:
-  postgresql: "9.4"
+  postgresql: "9.6"
 before_script:
-  - psql -c 'CREATE USER dembesi PASSWORD dembesi SUPERUSER;' -U postgres
+  - psql -c "CREATE USER dembesi PASSWORD 'dembesi' SUPERUSER;" -U postgres
   - psql -c 'CREATE DATABASE dembesi;' -U dembesi
 script:
   - ./mvnw clean install
