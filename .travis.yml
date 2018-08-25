@@ -3,5 +3,13 @@ jdk:
   - openjdk8
   - oraclejdk8
 install: true
+services:
+  - postgresql
+addons:
+  postgresql: "9.4"
+before_script:
+  - psql -c 'CREATEUSER -U dembesi -W dembesi;' -U postgres
+  - psql -c 'CREATE DATABASE dembesi;' -U postgres
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE dembesi TO dembesi;' -U postgres
 script:
   - ./mvnw clean install
