@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.usermanagement.model.TemporalEventData;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,25 +21,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
+    @NotNull
     @Column(name = "prenom")
     private String firstName;
 
+    @NotNull
     @Column(name = "nom")
     private String lastName;
 
     @Column(name = "date_naissance")
     private LocalDate birthDate;
 
+    @NotNull
+    @NotEmpty
     @Column(name = "numero_phone")
     private String phoneNumber;
 
     @Column(name = "numero_phone_2")
     private String phoneNumber2;
 
-    @Column(name = "")
+    @Column(name = "adresse")
     private String address;
 
-    @Column(name = "")
+    @Column(name = "adresse_2")
     private String address2;
 
     @Column(name = "region")
@@ -58,6 +64,10 @@ public class User {
 
     @ManyToMany
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn()
+    private Profile profile;
 
     public User() {
     }
@@ -164,6 +174,14 @@ public class User {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public Set<Role> getRoles() {

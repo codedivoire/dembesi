@@ -1,6 +1,6 @@
 package org.codedivoire.dembesi.common.configuration;
 
-import org.codedivoire.dembesi.common.service.impl.AccountDetailsService;
+import org.codedivoire.dembesi.usermanagement.service.UserManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private Logger LOG = LoggerFactory.getLogger(SecurityConfiguration.class);
 
-    private final AccountDetailsService accountDetailsService;
+    private final UserManagementService userManagementService;
 
     private final AccountAuthenticationSuccessHandler accountAuthenticationSuccessHandler;
 
@@ -32,10 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    public SecurityConfiguration(AccountDetailsService accountDetailsService
+    public SecurityConfiguration(UserManagementService userManagementService
             , AccountAuthenticationSuccessHandler accountAuthenticationSuccessHandler
             , AccountLogoutSuccessHandler accountLogoutSuccessHandler, PasswordEncoder passwordEncoder) {
-        this.accountDetailsService = accountDetailsService;
+        this.userManagementService = userManagementService;
         this.accountAuthenticationSuccessHandler = accountAuthenticationSuccessHandler;
         this.accountLogoutSuccessHandler = accountLogoutSuccessHandler;
         this.passwordEncoder = passwordEncoder;
@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder);
-        authenticationProvider.setUserDetailsService(accountDetailsService);
+        authenticationProvider.setUserDetailsService(userManagementService);
         return authenticationProvider;
     }
 
