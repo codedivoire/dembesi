@@ -1,6 +1,7 @@
 package org.codedivoire.dembesi.usermanagement.service;
 
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
+import org.codedivoire.dembesi.usermanagement.entity.User;
 import org.codedivoire.dembesi.usermanagement.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +22,15 @@ public class UserManagementService implements ProfileService {
 
     private final Logger LOG = LoggerFactory.getLogger(UserManagementService.class);
 
-    private final ProfileRepository repository;
+    private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserManagementService(ProfileRepository repository, PasswordEncoder passwordEncoder) {
-        this.repository = repository;
+    public UserManagementService(ProfileRepository profileRepository, PasswordEncoder passwordEncoder) {
+        this.profileRepository = profileRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     public String encodePassword(String rawPassword) {
         LOG.debug("Debut du Process 'encodePassword'");
@@ -43,21 +45,21 @@ public class UserManagementService implements ProfileService {
     @Override
     public Profile save(Profile profile) {
         LOG.debug("Debut du Process 'save'");
-        return repository.save(profile);
+        return profileRepository.save(profile);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Profile find(long id) {
         LOG.debug("Debut du Process 'find'");
-        return repository.getOne(id);
+        return profileRepository.getOne(id);
     }
 
     @Transactional(readOnly = true)
     @Override
     public Profile find(String email) {
         LOG.debug("Debut du Process 'find'");
-        Optional<Profile> optionalProfile = repository.findByEmail(email);
+        Optional<Profile> optionalProfile = profileRepository.findByEmail(email);
         return optionalProfile.orElse(null);
     }
 
@@ -66,7 +68,7 @@ public class UserManagementService implements ProfileService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LOG.debug("Debut du Proces 'loadUserByUsername'");
         if (username != null) {
-            Optional<Profile> optionalProfile = repository.findByUsername(username);
+            Optional<Profile> optionalProfile = profileRepository.findByUsername(username);
             if (optionalProfile.isPresent())
                 return optionalProfile.get();
             throw new UsernameNotFoundException("Profile is not exist");

@@ -2,6 +2,7 @@ package org.codedivoire.dembesi.usermanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.usermanagement.model.TemporalEventData;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -18,7 +19,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "nom")
+    @Column(name = "nom",unique = true)
     private String name;
 
     @Column(name = "libelle")
@@ -27,6 +28,7 @@ public class Group {
     @Column(length = 10000)
     private String description;
 
+    @Value("classpath:/org.codedivoire.dembesi.usermanagement.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 

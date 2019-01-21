@@ -2,6 +2,8 @@ package org.codedivoire.dembesi.usermanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.usermanagement.model.TemporalEventData;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
@@ -10,13 +12,13 @@ import javax.persistence.*;
  */
 @Table(name = "role_utilisateur")
 @Entity
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "nom")
+    @Column(name = "nom",unique = true)
     private String name;
 
     @Column(name = "libeller")
@@ -25,6 +27,7 @@ public class Role {
     @Column(length = 10000)
     private String description;
 
+    @Value("classpath:/org.codedivoire.dembesi.usermanagement.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
@@ -70,5 +73,10 @@ public class Role {
 
     public void setTemporalEventData(TemporalEventData temporalEventData) {
         this.temporalEventData = temporalEventData;
+    }
+
+    @Override
+    public String getAuthority() {
+        return name;
     }
 }

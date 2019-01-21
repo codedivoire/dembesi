@@ -68,6 +68,7 @@ public class Profile implements UserDetails {
     @Column
     private Gender gender;
 
+    @Value("classpath:/org.codedivoire.dembesi.usermanagement.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
@@ -217,7 +218,15 @@ public class Profile implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return user.getRoles();
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public enum Status {

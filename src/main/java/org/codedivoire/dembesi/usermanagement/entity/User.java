@@ -2,6 +2,7 @@ package org.codedivoire.dembesi.usermanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.usermanagement.model.TemporalEventData;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -55,6 +56,7 @@ public class User {
     @Column(name = "pays")
     private String country;
 
+    @Value("classpath:/org.codedivoire.dembesi.usermanagement.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
