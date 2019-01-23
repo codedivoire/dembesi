@@ -1,5 +1,8 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
 
 import javax.persistence.*;
@@ -15,8 +18,7 @@ import javax.validation.constraints.NotNull;
 public class Etymology {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dembesi_generator")
-    @SequenceGenerator(name = "dembesi_generator", sequenceName = "etymologie_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "origine")
@@ -28,9 +30,15 @@ public class Etymology {
     @Column(name = "status")
     private State state;
 
+    @JsonUnwrapped
+    private TemporalEventData temporalEventData;
+
+    @JsonUnwrapped
+    private Opinion opinion;
+
     @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
     @JoinColumn(name="nom_id")
-    private AbstractName owner;
+    private Name owner;
 
     public Etymology() {
     }
@@ -51,11 +59,35 @@ public class Etymology {
         this.origin = origin;
     }
 
-    public AbstractName getOwner() {
+    public Name getOwner() {
         return owner;
     }
 
-    public void setOwner(AbstractName owner) {
+    public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }

@@ -1,6 +1,9 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.MediaType;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
 
 import javax.persistence.*;
@@ -9,22 +12,21 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author  Christian Amani on 21/08/2018.
+ * @author Christian Amani on 21/08/2018.
  */
 @Table(name = "media")
 @Entity
 public class MediaLink {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dembesi_generator")
-    @SequenceGenerator(name = "dembesi_generator", sequenceName = "media_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "lien")
+    @Column(name = "url")
     @NotNull
     @NotEmpty
     @NotBlank
-    private String link;
+    private String uri;
 
     @Column(name = "legende")
     private String caption;
@@ -35,10 +37,15 @@ public class MediaLink {
     @Column(name = "status")
     private State state;
 
+    @JsonUnwrapped
+    private TemporalEventData temporalEventData;
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
-    @JoinColumn(name="nom_id")
-    private AbstractName owner;
+    @JsonUnwrapped
+    private Opinion opinion;
+
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class)
+    @JoinColumn(name = "nom_id")
+    private Name owner;
 
     public MediaLink() {
     }
@@ -51,12 +58,12 @@ public class MediaLink {
         this.id = id;
     }
 
-    public String getLink() {
-        return link;
+    public String getUri() {
+        return uri;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getCaption() {
@@ -75,11 +82,35 @@ public class MediaLink {
         this.mediaType = mediaType;
     }
 
-    public AbstractName getOwner() {
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
+    }
+
+    public Name getOwner() {
         return owner;
     }
 
-    public void setOwner(AbstractName owner) {
+    public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }

@@ -1,4 +1,4 @@
-package org.codedivoire.dembesi.usermanagement.model;
+package org.codedivoire.dembesi.common.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 

@@ -1,7 +1,7 @@
 package org.codedivoire.dembesi.usermanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import org.codedivoire.dembesi.usermanagement.model.TemporalEventData;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -27,7 +27,7 @@ public class Role implements GrantedAuthority {
     @Column(length = 10000)
     private String description;
 
-    @Value("classpath:/org.codedivoire.dembesi.usermanagement.model.TemporalEventData")
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 

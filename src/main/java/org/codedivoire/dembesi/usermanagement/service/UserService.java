@@ -4,7 +4,7 @@ import org.codedivoire.dembesi.usermanagement.entity.Group;
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.codedivoire.dembesi.usermanagement.entity.Role;
 import org.codedivoire.dembesi.usermanagement.entity.User;
-import org.codedivoire.dembesi.usermanagement.model.TemporalEventData;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.usermanagement.repository.GroupRepository;
 import org.codedivoire.dembesi.usermanagement.repository.ProfileRepository;
 import org.codedivoire.dembesi.usermanagement.repository.RoleRepository;

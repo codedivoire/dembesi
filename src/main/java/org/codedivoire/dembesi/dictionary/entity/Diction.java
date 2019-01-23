@@ -1,5 +1,7 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
 
 import javax.persistence.*;
@@ -15,8 +17,7 @@ import javax.validation.constraints.NotNull;
 public class Diction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dembesi_generator")
-    @SequenceGenerator(name = "dembesi_generator", sequenceName = "prononciation_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "prononciation")
@@ -25,15 +26,21 @@ public class Diction {
     @NotBlank
     private String pronunciation;
 
+    @Column(name = "url")
+    private String uri;
+
     @Column(name = "flux_audio")
     private byte[] audioStream;
 
     @Column(name = "status")
     private State state;
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
-    @JoinColumn(name="nom_id")
-    private AbstractName owner;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class)
+    @JoinColumn(name = "nom_id")
+    private Name owner;
+
+    @JsonUnwrapped
+    private Opinion opinion;
 
     public Diction() {
     }
@@ -62,11 +69,35 @@ public class Diction {
         this.audioStream = audioStream;
     }
 
-    public AbstractName getOwner() {
+    public Name getOwner() {
         return owner;
     }
 
-    public void setOwner(AbstractName owner) {
+    public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }
