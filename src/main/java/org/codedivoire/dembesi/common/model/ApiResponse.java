@@ -1,18 +1,13 @@
 package org.codedivoire.dembesi.common.model;
 
 /**
- * @author Christian Amani on 22/01/2019.
+ * @author Christian Amani on 23/01/2019.
  */
-public class ApiResponse {
+public abstract class ApiResponse {
 
-    private String apiVersion;
+    protected String apiVersion;
 
-    private StateResponse state;
-
-    private DataResponse data;
-
-    public ApiResponse() {
-    }
+    protected StateResponse state;
 
     public String getApiVersion() {
         return apiVersion;
@@ -28,13 +23,5 @@ public class ApiResponse {
 
     public void setState(StateResponse state) {
         this.state = state;
-    }
-
-    public DataResponse getData() {
-        return data;
-    }
-
-    public void setData(DataResponse data) {
-        this.data = data;
     }
 }

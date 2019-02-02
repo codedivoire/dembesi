@@ -1,6 +1,7 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
 
@@ -38,6 +39,9 @@ public class Diction {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class)
     @JoinColumn(name = "nom_id")
     private Name owner;
+
+    @JsonUnwrapped
+    private TemporalEventData temporalEventData;
 
     @JsonUnwrapped
     private Opinion opinion;
@@ -99,5 +103,13 @@ public class Diction {
 
     public void setOpinion(Opinion opinion) {
         this.opinion = opinion;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
     }
 }

@@ -44,8 +44,8 @@ public class Definition {
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
-
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class)
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class,optional = false)
     @JoinColumn(name = "nom_id")
     private Name owner;
 
@@ -90,5 +90,21 @@ public class Definition {
 
     public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
     }
 }

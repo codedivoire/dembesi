@@ -21,11 +21,17 @@ public class Etymology {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "origine")
+    @Column(name = "origine",length = 10000)
     @NotNull
     @NotBlank
     @NotEmpty
     private String origin;
+
+    @Column(name = "origine_traduction_englaise",length = 10000)
+    @NotNull
+    @NotBlank
+    @NotEmpty
+    private String originEnglishTranslate;
 
     @Column(name = "status")
     private State state;
@@ -36,7 +42,8 @@ public class Etymology {
     @JsonUnwrapped
     private Opinion opinion;
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
+    @NotNull
+    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class,optional = false)
     @JoinColumn(name="nom_id")
     private Name owner;
 

@@ -31,6 +31,9 @@ public class MediaLink {
     @Column(name = "legende")
     private String caption;
 
+    @Column(name = "legende_traduction_englaise")
+    private String captionEnglishTranslate;
+
     @Column(name = "type")
     private MediaType mediaType;
 

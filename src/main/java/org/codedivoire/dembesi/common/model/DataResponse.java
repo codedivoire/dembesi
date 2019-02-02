@@ -15,11 +15,14 @@ public class DataResponse {
 
     private List<Object> items;
 
-    private HashMap groupedItems = new HashMap();
+    private Map groupedItems = new HashMap();
 
     private int totalItems;
 
     private int totalGroupedItems;
+
+    public DataResponse() {
+    }
 
     public String getDomain() {
         return domain;
@@ -45,11 +48,11 @@ public class DataResponse {
         this.items = items;
     }
 
-    public HashMap getGroupedItems() {
+    public Map getGroupedItems() {
         return groupedItems;
     }
 
-    public void setGroupedItems(HashMap groupedItems) {
+    public void setGroupedItems(Map groupedItems) {
         this.groupedItems = groupedItems;
     }
 

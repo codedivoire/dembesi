@@ -86,12 +86,40 @@ public class Name {
         this.definitions = definitions;
     }
 
+    public void addDefinition(Definition definition) {
+        if (definition != null) {
+            definitions.add(definition);
+            definition.setOwner(this);
+        }
+    }
+
+    public void removeDefinition(Definition definition) {
+        if (definition != null) {
+            definitions.remove(definition);
+            definition.setOwner(null);
+        }
+    }
+
     public List<Diction> getDictions() {
         return dictions;
     }
 
     public void setDictions(List<Diction> dictions) {
         this.dictions = dictions;
+    }
+
+    public void addDiction(Diction diction) {
+        if (diction != null) {
+            dictions.add(diction);
+            diction.setOwner(this);
+        }
+    }
+
+    public void removeDiction(Diction diction) {
+        if (diction != null) {
+            dictions.remove(diction);
+            diction.setOwner(null);
+        }
     }
 
     public List<Etymology> getEtymologies() {
@@ -102,6 +130,20 @@ public class Name {
         this.etymologies = etymologies;
     }
 
+    public void addEtymology(Etymology etymology) {
+        if (etymology != null) {
+            etymologies.add(etymology);
+            etymology.setOwner(this);
+        }
+    }
+
+    public void removeEtymology(Etymology etymology) {
+        if (etymology != null) {
+            etymologies.remove(etymology);
+            etymology.setOwner(null);
+        }
+    }
+
     public List<GeoLocation> getGeoLocations() {
         return geoLocations;
     }
@@ -110,12 +152,40 @@ public class Name {
         this.geoLocations = geoLocations;
     }
 
+    public void addGeoLocation(GeoLocation geoLocation) {
+        if (geoLocation != null) {
+            geoLocations.add(geoLocation);
+            geoLocation.setOwner(this);
+        }
+    }
+
+    public void removeGeoLocation(GeoLocation geoLocation) {
+        if (geoLocation != null) {
+            geoLocations.remove(geoLocation);
+            geoLocation.setOwner(null);
+        }
+    }
+
     public List<MediaLink> getMediaLinkList() {
         return mediaLinkList;
     }
 
     public void setMediaLinkList(List<MediaLink> mediaLinkList) {
         this.mediaLinkList = mediaLinkList;
+    }
+
+    public void addMediaLink(MediaLink mediaLink) {
+        if (mediaLink != null) {
+            mediaLinkList.add(mediaLink);
+            mediaLink.setOwner(this);
+        }
+    }
+
+    public void removeMediaLink(MediaLink mediaLink) {
+        if (mediaLink != null) {
+            mediaLinkList.add(mediaLink);
+            mediaLink.setOwner(null);
+        }
     }
 
     public TemporalEventData getTemporalEventData() {
