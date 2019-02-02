@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,23 +32,25 @@ public class Name {
     private State state;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
-    private List<Definition> definitions;
+    private List<Definition> definitions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
-    private List<Diction> dictions;
+    private List<Diction> dictions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
-    private List<Etymology> etymologies;
+    private List<Etymology> etymologies = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
-    private List<GeoLocation> geoLocations;
+    private List<GeoLocation> geoLocations = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "owner")
-    private List<MediaLink> mediaLinkList;
+    private List<MediaLink> mediaLinkList = new ArrayList<>();
 
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
     @JsonUnwrapped
     private Opinion opinion;
 
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
@@ -194,5 +198,13 @@ public class Name {
 
     public void setTemporalEventData(TemporalEventData temporalEventData) {
         this.temporalEventData = temporalEventData;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }

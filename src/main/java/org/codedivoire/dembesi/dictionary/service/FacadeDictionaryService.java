@@ -2,6 +2,7 @@ package org.codedivoire.dembesi.dictionary.service;
 
 import org.codedivoire.dembesi.common.model.ApiResponse;
 import org.codedivoire.dembesi.common.model.StateResponse;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.entity.*;
 import org.codedivoire.dembesi.dictionary.model.NameBodyRequest;
 import org.codedivoire.dembesi.dictionary.utils.BuilderApiResponse;
@@ -41,7 +42,8 @@ public class FacadeDictionaryService {
     public ApiResponse submittedName(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submittedName'");
         Name name = bodyRequest.getName();
-        name.getTemporalEventData().setCreated(LocalDateTime.now(Clock.systemUTC()));
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
             return optionalName.map(value -> BuilderApiResponse.builder()
@@ -58,7 +60,11 @@ public class FacadeDictionaryService {
     public ApiResponse submitNameDefinition(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submitNameDefinition'");
         Name name = bodyRequest.getName();
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         Definition definition = bodyRequest.getDefinition();
+        TemporalEventData temporalEventDataDefinition = definition.getTemporalEventData();
+        temporalEvent(temporalEventDataDefinition);
         name.addDefinition(definition);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
@@ -77,7 +83,11 @@ public class FacadeDictionaryService {
     public ApiResponse submitNameDiction(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submittedDiction'");
         Name name = bodyRequest.getName();
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         Diction diction = bodyRequest.getDiction();
+        TemporalEventData temporalEventDataDiction = diction.getTemporalEventData();
+        temporalEvent(temporalEventDataDiction);
         name.addDiction(diction);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
@@ -96,7 +106,11 @@ public class FacadeDictionaryService {
     public ApiResponse submitNameEtymology(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submitNameEtymology'");
         Name name = bodyRequest.getName();
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         Etymology etymology = bodyRequest.getEtymologie();
+        TemporalEventData temporalEventDataEtymology = etymology.getTemporalEventData();
+        temporalEvent(temporalEventDataEtymology);
         name.addEtymology(etymology);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
@@ -115,7 +129,11 @@ public class FacadeDictionaryService {
     public ApiResponse submitNameGeoLocation(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submitNameGeoLocation'");
         Name name = bodyRequest.getName();
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         GeoLocation geoLocation = bodyRequest.getGeoLocation();
+        TemporalEventData temporalEventDataGeoLocation = geoLocation.getTemporalEventData();
+        temporalEvent(temporalEventDataGeoLocation);
         name.addGeoLocation(geoLocation);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
@@ -134,7 +152,11 @@ public class FacadeDictionaryService {
     public ApiResponse submitMediaLink(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submitMediaLink'");
         Name name = bodyRequest.getName();
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         MediaLink mediaLink = bodyRequest.getMediaLink();
+        TemporalEventData temporalEventDataMediaLink = mediaLink.getTemporalEventData();
+        temporalEvent(temporalEventDataMediaLink);
         name.addMediaLink(mediaLink);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
@@ -153,15 +175,27 @@ public class FacadeDictionaryService {
     public ApiResponse submitNameWithAllInformation(NameBodyRequest bodyRequest, String apiVersion) {
         LOG.debug("Debut du Process 'submitNameWithAllInformation'");
         Name name = bodyRequest.getName();
+        TemporalEventData temporalEventData = name.getTemporalEventData();
+        temporalEvent(temporalEventData);
         Definition definition = bodyRequest.getDefinition();
+        TemporalEventData temporalEventDataDefinition = definition.getTemporalEventData();
+        temporalEvent(temporalEventDataDefinition);
         name.addDefinition(definition);
         Diction diction = bodyRequest.getDiction();
+        TemporalEventData temporalEventDataDiction = diction.getTemporalEventData();
+        temporalEvent(temporalEventDataDiction);
         name.addDiction(diction);
         Etymology etymology = bodyRequest.getEtymologie();
+        TemporalEventData temporalEventDataEtymology = etymology.getTemporalEventData();
+        temporalEvent(temporalEventDataEtymology);
         name.addEtymology(etymology);
         GeoLocation geoLocation = bodyRequest.getGeoLocation();
+        TemporalEventData temporalEventDataGeoLocation = geoLocation.getTemporalEventData();
+        temporalEvent(temporalEventDataGeoLocation);
         name.addGeoLocation(geoLocation);
         MediaLink mediaLink = bodyRequest.getMediaLink();
+        TemporalEventData temporalEventDataMediaLink = mediaLink.getTemporalEventData();
+        temporalEvent(temporalEventDataMediaLink);
         name.addMediaLink(mediaLink);
         Optional<Name> optionalName = nameService.save(name);
         if (optionalName.isPresent()) {
@@ -183,6 +217,8 @@ public class FacadeDictionaryService {
     public Diction putAudioStream(MultipartFile multipartFile, Diction diction) {
         LOG.debug("Debut du Process 'putAudioStream'");
         try {
+            TemporalEventData temporalEventData = diction.getTemporalEventData();
+            temporalEvent(temporalEventData);
             byte[] bytes = multipartFile.getBytes();
             diction.setAudioStream(bytes);
             Optional<Diction> optionalDiction = dictionService.save(diction);
@@ -202,5 +238,13 @@ public class FacadeDictionaryService {
                 .errorResponseState(StateResponse.fail)
                 .errorResponseAddErrorData(DOMAIN, message, message)
                 .buildErrorResponse();
+    }
+
+    private void temporalEvent(TemporalEventData temporalEventData) {
+        if(temporalEventData.getCreated() == null) {
+            temporalEventData.setCreated(LocalDateTime.now(Clock.systemUTC()));
+        } else {
+            temporalEventData.setUpdated(LocalDateTime.now(Clock.systemUTC()));
+        }
     }
 }

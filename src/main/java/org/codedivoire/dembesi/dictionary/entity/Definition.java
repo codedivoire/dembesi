@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -27,7 +29,6 @@ public class Definition {
     private long id;
 
     @Column(name = "contenu", length = 10000)
-    @NotBlank
     @NotEmpty
     @NotNull
     private String content;
@@ -41,6 +42,7 @@ public class Definition {
     @Column(name = "status")
     private State state;
 
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
@@ -48,6 +50,11 @@ public class Definition {
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class,optional = false)
     @JoinColumn(name = "nom_id")
     private Name owner;
+
+
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
+    @JsonUnwrapped
+    private Opinion opinion;
 
     public Definition() {
     }
@@ -106,5 +113,13 @@ public class Definition {
 
     public void setTemporalEventData(TemporalEventData temporalEventData) {
         this.temporalEventData = temporalEventData;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }

@@ -1,5 +1,6 @@
 package org.codedivoire.dembesi.common.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ public class DataResponse {
 
     private Object item;
 
-    private List<Object> items;
+    private List<Object> items = new ArrayList<>();
 
     private Map groupedItems = new HashMap();
 

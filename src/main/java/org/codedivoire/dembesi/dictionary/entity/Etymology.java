@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,22 +24,20 @@ public class Etymology {
 
     @Column(name = "origine",length = 10000)
     @NotNull
-    @NotBlank
     @NotEmpty
     private String origin;
 
     @Column(name = "origine_traduction_englaise",length = 10000)
-    @NotNull
-    @NotBlank
-    @NotEmpty
     private String originEnglishTranslate;
 
     @Column(name = "status")
     private State state;
 
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
     @JsonUnwrapped
     private Opinion opinion;
 
