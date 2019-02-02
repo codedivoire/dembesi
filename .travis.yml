@@ -1,0 +1,15 @@
+language: java
+jdk:
+  - openjdk8
+  - oraclejdk8
+install: true
+services:
+  - postgresql
+addons:
+  postgresql: "9.6"
+before_script:
+  - psql -c "CREATE USER dembesi WITH PASSWORD 'dembesi' SUPERUSER;" -U postgres
+  - psql -c 'CREATE DATABASE dembesi ;' -U postgres
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE dembesi TO dembesi'
+script:
+  - ./mvnw clean install

@@ -1,10 +1,15 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -13,40 +18,43 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * @author  Christian Amani on 21/08/2018.
+ * @author Christian Amani on 21/08/2018.
  */
 @Table(name = "definition")
 @Entity
 public class Definition {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dembesi_generator")
-    @SequenceGenerator(name = "dembesi_generator", sequenceName = "definition_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "contenu",length = 10000)
-    @NotBlank
+    @Column(name = "contenu", length = 10000)
     @NotEmpty
     @NotNull
     private String content;
 
-    @Column(name = "contenu_anglais",length = 10000)
+    @Column(name = "contenu_anglais", length = 10000)
     private String englishContent;
 
-    @Column(name = "contenu_langue_local")
+    @Column(name = "contenu_langue_local", length = 10000)
     private String localLanguageContent;
 
     @Column(name = "status")
     private State state;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime submittedAt;
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
+    @JsonUnwrapped
+    private TemporalEventData temporalEventData;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class,optional = false)
+    @JoinColumn(name = "nom_id")
+    private Name owner;
 
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
-    @JoinColumn(name="nom_id")
-    private AbstractName owner;
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
+    @JsonUnwrapped
+    private Opinion opinion;
 
     public Definition() {
     }
@@ -83,19 +91,35 @@ public class Definition {
         this.localLanguageContent = localLanguageContent;
     }
 
-    public LocalDateTime getSubmittedAt() {
-        return submittedAt;
-    }
-
-    public void setSubmittedAt(LocalDateTime submittedAt) {
-        this.submittedAt = submittedAt;
-    }
-
-    public AbstractName getOwner() {
+    public Name getOwner() {
         return owner;
     }
 
-    public void setOwner(AbstractName owner) {
+    public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }

@@ -1,0 +1,6 @@
+databaseChangeLog:
+- preConditions:
+  - runningAs:
+      username: dembesi
+    dbms:
+      type: postgresql

@@ -1,6 +1,10 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,22 +19,32 @@ import javax.validation.constraints.NotNull;
 public class Etymology {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dembesi_generator")
-    @SequenceGenerator(name = "dembesi_generator", sequenceName = "etymologie_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "origine")
+    @Column(name = "origine",length = 10000)
     @NotNull
-    @NotBlank
     @NotEmpty
     private String origin;
+
+    @Column(name = "origine_traduction_englaise",length = 10000)
+    private String originEnglishTranslate;
 
     @Column(name = "status")
     private State state;
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
+    @JsonUnwrapped
+    private TemporalEventData temporalEventData;
+
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
+    @JsonUnwrapped
+    private Opinion opinion;
+
+    @NotNull
+    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class,optional = false)
     @JoinColumn(name="nom_id")
-    private AbstractName owner;
+    private Name owner;
 
     public Etymology() {
     }
@@ -51,11 +65,35 @@ public class Etymology {
         this.origin = origin;
     }
 
-    public AbstractName getOwner() {
+    public Name getOwner() {
         return owner;
     }
 
-    public void setOwner(AbstractName owner) {
+    public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
     }
 }

@@ -1,6 +1,10 @@
 package org.codedivoire.dembesi.dictionary.entity;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,15 +19,16 @@ import javax.validation.constraints.NotNull;
 public class Diction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "dembesi_generator")
-    @SequenceGenerator(name = "dembesi_generator", sequenceName = "prononciation_sequence",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "prononciation")
     @NotNull
     @NotEmpty
-    @NotBlank
     private String pronunciation;
+
+    @Column(name = "url")
+    private String uri;
 
     @Column(name = "flux_audio")
     private byte[] audioStream;
@@ -31,9 +36,17 @@ public class Diction {
     @Column(name = "status")
     private State state;
 
-    @ManyToOne(fetch=FetchType.EAGER, targetEntity = Name.class)
-    @JoinColumn(name="nom_id")
-    private AbstractName owner;
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Name.class)
+    @JoinColumn(name = "nom_id")
+    private Name owner;
+
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
+    @JsonUnwrapped
+    private TemporalEventData temporalEventData;
+
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
+    @JsonUnwrapped
+    private Opinion opinion;
 
     public Diction() {
     }
@@ -62,11 +75,43 @@ public class Diction {
         this.audioStream = audioStream;
     }
 
-    public AbstractName getOwner() {
+    public Name getOwner() {
         return owner;
     }
 
-    public void setOwner(AbstractName owner) {
+    public void setOwner(Name owner) {
         this.owner = owner;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public Opinion getOpinion() {
+        return opinion;
+    }
+
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
+    }
+
+    public TemporalEventData getTemporalEventData() {
+        return temporalEventData;
+    }
+
+    public void setTemporalEventData(TemporalEventData temporalEventData) {
+        this.temporalEventData = temporalEventData;
     }
 }
