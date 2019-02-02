@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,7 +24,6 @@ public class GeoLocation {
 
     @Column(name = "region")
     @NotNull
-    @NotBlank
     @NotEmpty
     private String region;
 
@@ -33,9 +33,11 @@ public class GeoLocation {
     @Column(name = "status")
     private State state;
 
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
     @JsonUnwrapped
     private Opinion opinion;
 

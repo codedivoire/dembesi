@@ -5,6 +5,8 @@ import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.MediaType;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.hibernate.validator.constraints.URL;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +27,7 @@ public class MediaLink {
     @Column(name = "url")
     @NotNull
     @NotEmpty
-    @NotBlank
+    @URL
     private String uri;
 
     @Column(name = "legende")
@@ -34,15 +36,18 @@ public class MediaLink {
     @Column(name = "legende_traduction_englaise")
     private String captionEnglishTranslate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private MediaType mediaType;
 
     @Column(name = "status")
     private State state;
 
+    @Value("classpath:/org.codedivoire.dembesi.common.model.TemporalEventData")
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
+    @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
     @JsonUnwrapped
     private Opinion opinion;
 
