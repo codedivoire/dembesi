@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 
 /**
@@ -58,15 +59,15 @@ public class UserService {
     public void removeRoles(long profileId) {
         LOG.debug("Debut du Process 'removeRoles'");
         Optional<Profile> optionalProfile = profileRepository.findById(profileId);
-        optionalProfile.ifPresent(profile -> {
+        if (optionalProfile.isPresent()) {
+            Profile profile = optionalProfile.get();
             User user = profile.getUser();
-            user.getRoles()
-                    .forEach(user::removeRole);
+            user.setRoles(new HashSet<>());
             userRepository.save(user);
-        });
+        }
     }
 
-    public void setGroup(long profileId,String groupName) {
+    public void setGroup(long profileId, String groupName) {
         LOG.debug("Debut du Process 'setGroup'");
         Optional<Profile> optionalProfile = profileRepository.findById(profileId);
         optionalProfile.ifPresent(profile -> {
@@ -82,15 +83,21 @@ public class UserService {
         LOG.debug("Debut du Process 'deleted'");
         Optional<User> optionalUser = userRepository.findById(userId);
         optionalUser.ifPresent(user -> {
-            TemporalEventData temporalEventData = user.getTemporalEventData();
-            temporalEventData.setDeleted(LocalDateTime.now(Clock.systemUTC()));
+            TemporalEventData temporalEventDataUser = user.getTemporalEventData();
+            temporalEventDataUser.setDeleted(LocalDateTime.now(Clock.systemUTC()));
+            user.setTemporalEventData(temporalEventDataUser);
+            Profile profile = user.getProfile();
+            TemporalEventData temporalEventDataProfile = user.getTemporalEventData();
+            temporalEventDataProfile.setDeleted(LocalDateTime.now(Clock.systemUTC()));
+            profile.setTemporalEventData(temporalEventDataProfile);
             userRepository.save(user);
+            profileRepository.save(profile);
         });
     }
 
     public boolean isDeleted(long userId) {
         LOG.debug("Debut du Process 'isDeleted'");
         Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.map(user -> user.getTemporalEventData().getDeleted() == null).orElse(true);
+        return optionalUser.map(user -> user.getTemporalEventData().getDeleted() != null).orElse(true);
     }
 }

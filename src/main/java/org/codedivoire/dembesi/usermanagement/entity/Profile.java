@@ -11,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Christian Amani on 16/01/2019.
@@ -63,7 +65,6 @@ public class Profile implements UserDetails {
     private Status status;
 
     @NotNull
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
@@ -217,7 +218,7 @@ public class Profile implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<Role> getAuthorities() {
         return user.getRoles();
     }
 

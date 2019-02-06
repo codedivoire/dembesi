@@ -67,7 +67,7 @@ public class User {
     @ManyToMany
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn()
     private Profile profile;
 
@@ -184,6 +184,7 @@ public class User {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+        this.profile.setUser(this);
     }
 
     public Set<Role> getRoles() {
