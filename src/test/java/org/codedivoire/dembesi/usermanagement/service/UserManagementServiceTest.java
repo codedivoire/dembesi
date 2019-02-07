@@ -70,7 +70,7 @@ public class UserManagementServiceTest {
         profile.setUsername("dembe");
         profile.setPassword("password");
         profile.setTemporalEventData(new TemporalEventData());
-        profile.setGender(Profile.Gender.mal);
+        profile.setGender(Profile.Gender.male);
 
     }
 

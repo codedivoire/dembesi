@@ -239,7 +239,11 @@ public class Profile implements UserDetails {
     }
 
     public enum Gender {
-        mal,
-        female
+        male,
+        female;
+
+        public static Gender fromString(String gender) {
+            return gender.equals("male") ? Gender.male : Gender.female;
+        }
     }
 }

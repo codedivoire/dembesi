@@ -1,4 +1,4 @@
-package org.codedivoire.dembesi.common.model;
+package org.codedivoire.dembesi.common.model.api;
 
 /**
  * @author Christian Amani on 23/01/2019.

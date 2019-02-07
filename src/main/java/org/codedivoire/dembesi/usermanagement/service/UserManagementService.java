@@ -1,7 +1,8 @@
 package org.codedivoire.dembesi.usermanagement.service;
 
+import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.common.model.UserOAuth2Adapter;
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
-import org.codedivoire.dembesi.usermanagement.entity.User;
 import org.codedivoire.dembesi.usermanagement.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,16 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
  * @author Christian Amani on 17/01/2019.
  */
 @Service
-public class UserManagementService implements ProfileService {
+public class UserManagementService extends DefaultOAuth2UserService implements ProfileService {
 
     private final Logger LOG = LoggerFactory.getLogger(UserManagementService.class);
 
@@ -74,5 +81,31 @@ public class UserManagementService implements ProfileService {
             throw new UsernameNotFoundException("Profile is not exist");
         } else
             throw new UsernameNotFoundException("Profile is null");
+    }
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        LOG.debug("Debut du Process 'loadUser'");
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+        String registrationId = userRequest.getClientRegistration().
+                getRegistrationId();
+        if (registrationId.equalsIgnoreCase("facebook")) {
+            UserOAuth2Adapter userOAuth2Adapter = new UserOAuth2Adapter(oAuth2User);
+            Profile profile = userOAuth2Adapter.getProfile();
+            String email = profile.getEmail();
+            Optional<Profile> optionalProfile = profileRepository.findByEmail(email);
+            if(optionalProfile.isPresent()) {
+                LOG.debug("Profile it is present in database");
+                // TODO : Update profile and user
+            } else {
+                LOG.debug("Profile it is not present in database");
+                // TODO : Save user
+                TemporalEventData temporalEventData = profile.getTemporalEventData();
+                temporalEventData.setCreated(LocalDateTime.now(Clock.systemUTC()));
+                profile.setTemporalEventData(temporalEventData);
+                save(profile);
+            }
+        }
+        return oAuth2User;
     }
 }

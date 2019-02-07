@@ -1,9 +1,9 @@
 package org.codedivoire.dembesi.dictionary.utils;
 
-import org.codedivoire.dembesi.common.model.DataResponse;
-import org.codedivoire.dembesi.common.model.ErrorResponse;
-import org.codedivoire.dembesi.common.model.GreatResponse;
-import org.codedivoire.dembesi.common.model.StateResponse;
+import org.codedivoire.dembesi.common.model.api.DataResponse;
+import org.codedivoire.dembesi.common.model.api.ErrorResponse;
+import org.codedivoire.dembesi.common.model.api.GreatResponse;
+import org.codedivoire.dembesi.common.model.api.StateResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

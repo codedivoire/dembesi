@@ -14,11 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -71,7 +69,7 @@ public class UserServiceTest {
         profile.setUsername("dembe");
         profile.setPassword("password");
         profile.setTemporalEventData(new TemporalEventData());
-        profile.setGender(Profile.Gender.mal);
+        profile.setGender(Profile.Gender.male);
         user = new User();
         user.setFirstName("Konan");
         user.setLastName("Koffi");
