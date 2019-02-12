@@ -5,6 +5,7 @@ import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -19,7 +20,7 @@ import java.util.Set;
  */
 @Table(name = "profile")
 @Entity
-public class Profile implements UserDetails {
+public class Profile implements SocialUserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +28,7 @@ public class Profile implements UserDetails {
 
     @NotNull
     @NotEmpty
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @NotNull
@@ -228,6 +229,11 @@ public class Profile implements UserDetails {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public String getUserId() {
+        return null;
     }
 
     public enum Status {

@@ -1,8 +1,6 @@
 package org.codedivoire.dembesi.common.configuration;
 
 import org.codedivoire.dembesi.usermanagement.service.UserManagementService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Bean;
@@ -13,8 +11,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 
 /**
@@ -24,8 +25,6 @@ import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClient
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private Logger LOG = LoggerFactory.getLogger(SecurityConfiguration.class);
-
     private final UserManagementService userManagementService;
 
     private final AccountAuthenticationSuccessHandler accountAuthenticationSuccessHandler;
@@ -34,17 +33,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final ServerAuthorisationRegistration clientRegistration;
 
     @Autowired
     public SecurityConfiguration(UserManagementService userManagementService
             , AccountAuthenticationSuccessHandler accountAuthenticationSuccessHandler
-            , AccountLogoutSuccessHandler accountLogoutSuccessHandler, PasswordEncoder passwordEncoder, ServerAuthorisationRegistration clientRegistration) {
+            , AccountLogoutSuccessHandler accountLogoutSuccessHandler, PasswordEncoder passwordEncoder) {
         this.userManagementService = userManagementService;
         this.accountAuthenticationSuccessHandler = accountAuthenticationSuccessHandler;
         this.accountLogoutSuccessHandler = accountLogoutSuccessHandler;
         this.passwordEncoder = passwordEncoder;
-        this.clientRegistration = clientRegistration;
     }
 
     @Bean
@@ -62,13 +59,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(accountLogoutSuccessHandler)
                 .and()
                 .formLogin()
+                .loginPage("/login").permitAll()
                 .successHandler(accountAuthenticationSuccessHandler)
                 .and()
-                .oauth2Login()
-                .clientRegistrationRepository(clientRegistration)
-                .authorizedClientService(new InMemoryOAuth2AuthorizedClientService(clientRegistration))
-                .userInfoEndpoint()
-                .userService(userManagementService);
+                .authorizeRequests()
+                .antMatchers("/login*","/signin/**","/signup/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .rememberMe()
+                .and()
+                .apply(new SpringSocialConfigurer());
     }
 
     @Autowired
