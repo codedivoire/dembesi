@@ -46,6 +46,12 @@ public class UserManagementService implements ProfileService, SocialUserDetailsS
         return passwordEncoder.matches(rawPassword,passwordEncoded);
     }
 
+    @Transactional(readOnly = true)
+    public long countProfile() {
+        LOG.debug("Debut du Process 'countProfile'");
+        return profileRepository.count();
+    }
+
     @Override
     public Profile save(Profile profile) {
         LOG.debug("Debut du Process 'save'");
@@ -80,6 +86,7 @@ public class UserManagementService implements ProfileService, SocialUserDetailsS
             throw new UsernameNotFoundException("Profile is null");
     }
 
+    @Transactional(readOnly = true)
     @Override
     public SocialUserDetails loadUserByUserId(String s) throws UsernameNotFoundException {
         LOG.debug("Debut du Proces 'loadUserByUsername'");

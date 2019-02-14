@@ -246,7 +246,8 @@ public class Profile implements SocialUserDetails {
 
     public enum Gender {
         male,
-        female;
+        female,
+        unknown;
 
         public static Gender fromString(String gender) {
             return gender.equals("male") ? Gender.male : Gender.female;

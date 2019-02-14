@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.UsersConnectionRepository;
+import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.mem.InMemoryUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -38,7 +39,7 @@ public class SocialSignInConfiguration {
 
     @Bean
     public ProviderSignInController facebookSignInController() {
-        ((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
+        ((JdbcUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
         ProviderSignInController controller = new ProviderSignInController(connectionFactoryLocator
                 , usersConnectionRepository, facebookSignInAdapter);
         controller.addSignInInterceptor(socialSignInInterceptor);
@@ -47,7 +48,7 @@ public class SocialSignInConfiguration {
 
     @Bean
     public ProviderSignInUtils providerSignInUtils() {
-        ((InMemoryUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
+        ((JdbcUsersConnectionRepository) usersConnectionRepository).setConnectionSignUp(facebookConnectionSignup);
         return new ProviderSignInUtils(connectionFactoryLocator,usersConnectionRepository);
     }
 }

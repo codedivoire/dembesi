@@ -17,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -47,7 +48,7 @@ public class UserManagementServiceTest {
     public void setup() {
 
         Mockito.when(passwordEncoder.encode(Mockito.anyString())).thenReturn("DBDNU384949CBNNDJD");
-        Mockito.when(passwordEncoder.matches(Mockito.anyString(),Mockito.anyString()))
+        Mockito.when(passwordEncoder.matches(Mockito.anyString(), Mockito.anyString()))
                 .thenReturn(true);
 
         Role roleRoot = new Role();
@@ -78,7 +79,7 @@ public class UserManagementServiceTest {
     public void encodePassword() {
         String password = "password";
         String encodedPassword = userManagementService.encodePassword(password);
-        assertNotEquals(password,encodedPassword);
+        assertNotEquals(password, encodedPassword);
     }
 
     @Test
@@ -87,6 +88,13 @@ public class UserManagementServiceTest {
         String encodedPassword = userManagementService.encodePassword(password);
         boolean matched = userManagementService.matchPassword(password, encodedPassword);
         assertTrue(matched);
+    }
+
+    @Test
+    public void countProfile() {
+        saveProfile();
+        long size = userManagementService.countProfile();
+        assertNotEquals(0, size);
     }
 
     @Test
@@ -113,6 +121,13 @@ public class UserManagementServiceTest {
         saveProfile();
         UserDetails userDetails = userManagementService.loadUserByUsername("dembe");
         assertNotNull(userDetails);
+    }
+
+    @Test
+    public void loadUserByUserId() {
+        saveProfile();
+        SocialUserDetails socialUser = userManagementService.loadUserByUserId("dembe");
+        assertNotNull(socialUser);
     }
 
     private void saveProfile() {

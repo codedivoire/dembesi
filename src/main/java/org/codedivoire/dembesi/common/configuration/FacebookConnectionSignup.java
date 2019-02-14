@@ -1,7 +1,11 @@
 package org.codedivoire.dembesi.common.configuration;
 
+import org.codedivoire.dembesi.usermanagement.entity.Profile;
+import org.codedivoire.dembesi.usermanagement.model.RegisterForm;
+import org.codedivoire.dembesi.usermanagement.service.UserManagementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.facebook.api.Facebook;
@@ -10,12 +14,19 @@ import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Christian Amani on 09/02/2019.
+ * @author Christian Amani on 09/02/2019.
  */
 @Component
 public class FacebookConnectionSignup implements ConnectionSignUp {
 
     private final Logger LOG = LoggerFactory.getLogger(FacebookConnectionSignup.class);
+
+    private final UserManagementService userManagementService;
+
+    @Autowired
+    public FacebookConnectionSignup(UserManagementService userManagementService) {
+        this.userManagementService = userManagementService;
+    }
 
     @Override
     public String execute(Connection<?> connection) {
@@ -30,9 +41,14 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
                 , "payment_pricepoints", "relationship_status", "religion", "security_settings", "significant_other"
                 , "sports", "test_group", "timezone", "third_party_id", "updated_time", "verified", "video_upload_limits"
                 , "viewer_can_send_gift", "website", "work"};
-        User userProfile = facebook.fetchObject("me", User.class, fields);
-        LOG.info(userProfile.getEmail());
-        // TODO : Create new user profile
+        User facebookUser = facebook.fetchObject("me", User.class, fields);
+        LOG.info(facebookUser.getEmail());
+        long size = userManagementService.countProfile();
+        Profile profile = RegisterForm.fromFacebookUser(facebookUser,size);
+        org.codedivoire.dembesi.usermanagement.entity.User user = RegisterForm.fromFacebookUser(facebookUser);
+        user.setProfile(profile);
+        profile.setUser(user);
+        userManagementService.save(profile);
         return displayName;
     }
 }

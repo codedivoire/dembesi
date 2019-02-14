@@ -59,6 +59,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(accountLogoutSuccessHandler)
                 .and()
                 .formLogin()
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .loginPage("/login").permitAll()
                 .successHandler(accountAuthenticationSuccessHandler)
                 .and()

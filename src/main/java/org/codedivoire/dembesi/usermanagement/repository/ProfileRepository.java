@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * @author Christian Amani on 17/01/2019.
  */
-public interface ProfileRepository extends JpaRepository<Profile,Long> {
+public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
     Optional<Profile> findByEmail(String email);
 
