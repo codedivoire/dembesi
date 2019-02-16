@@ -1,5 +1,6 @@
 package org.codedivoire.dembesi.usermanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,6 +68,7 @@ public class User {
     @ManyToMany
     private Set<Role> roles = new HashSet<>();
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn()
     private Profile profile;

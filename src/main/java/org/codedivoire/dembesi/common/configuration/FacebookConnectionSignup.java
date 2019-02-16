@@ -1,5 +1,6 @@
 package org.codedivoire.dembesi.common.configuration;
 
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.codedivoire.dembesi.usermanagement.model.RegisterForm;
 import org.codedivoire.dembesi.usermanagement.service.UserManagementService;
@@ -12,6 +13,9 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
 import org.springframework.stereotype.Component;
+
+import java.time.Clock;
+import java.time.LocalDateTime;
 
 /**
  * @author Christian Amani on 09/02/2019.
@@ -46,9 +50,14 @@ public class FacebookConnectionSignup implements ConnectionSignUp {
         long size = userManagementService.countProfile();
         Profile profile = RegisterForm.fromFacebookUser(facebookUser,size);
         org.codedivoire.dembesi.usermanagement.entity.User user = RegisterForm.fromFacebookUser(facebookUser);
+        LocalDateTime created = LocalDateTime.now(Clock.systemUTC());
+        TemporalEventData temporalEventDataUser = user.getTemporalEventData();
+        temporalEventDataUser.setCreated(created);
+        TemporalEventData temporalEventDataProfile = profile.getTemporalEventData();
+        temporalEventDataProfile.setCreated(created);
         user.setProfile(profile);
         profile.setUser(user);
-        userManagementService.save(profile);
+        userManagementService.saveAndEncodePassword(profile);
         return displayName;
     }
 }

@@ -1,5 +1,6 @@
 package org.codedivoire.dembesi.usermanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,17 +27,15 @@ public class Profile implements SocialUserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
     @NotEmpty
     @Column(name = "email",unique = true)
     private String email;
 
-    @NotNull
     @NotEmpty
     @Column
     private String username;
 
-    @NotNull
+    @JsonIgnore
     @NotEmpty
     @Column
     private String password;

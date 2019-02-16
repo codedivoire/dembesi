@@ -10,6 +10,8 @@ public interface ProfileService extends UserDetailsService {
 
     Profile save(Profile profile);
 
+    Profile saveAndEncodePassword(Profile profile);
+
     Profile find(long id);
 
     Profile find(String email);

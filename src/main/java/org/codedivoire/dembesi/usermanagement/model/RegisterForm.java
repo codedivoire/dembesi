@@ -2,6 +2,7 @@ package org.codedivoire.dembesi.usermanagement.model;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.codedivoire.dembesi.usermanagement.entity.User;
 
@@ -37,6 +38,9 @@ public class RegisterForm {
 
     @NotNull
     private String numberPhone;
+
+    @NotEmpty
+    private String group;
 
     private String country;
 
@@ -115,6 +119,8 @@ public class RegisterForm {
             profile.setPassword(password);
             Profile.Gender gender = form.getGender();
             profile.setGender(gender);
+            TemporalEventData temporalEventData = new TemporalEventData();
+            profile.setTemporalEventData(temporalEventData);
             return profile;
         }
         return null;
@@ -131,6 +137,8 @@ public class RegisterForm {
             user.setPhoneNumber(numberPhone);
             String country = form.getCountry();
             user.setCountry(country);
+            TemporalEventData temporalEventData = new TemporalEventData();
+            user.setTemporalEventData(temporalEventData);
             return user;
         }
         return null;
@@ -149,6 +157,8 @@ public class RegisterForm {
             else
                 profile.setGender(Profile.Gender.unknown);
             profile.setPassword("dembesipassword");
+            TemporalEventData temporalEventData = new TemporalEventData();
+            profile.setTemporalEventData(temporalEventData);
         }
         return null;
     }
@@ -180,8 +190,18 @@ public class RegisterForm {
             else
                 user.setLastName("");
             user.setPhoneNumber("+225XXXXXXXX");
+            TemporalEventData temporalEventData = new TemporalEventData();
+            user.setTemporalEventData(temporalEventData);
             return user;
         }
         return null;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

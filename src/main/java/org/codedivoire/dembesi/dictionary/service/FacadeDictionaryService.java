@@ -241,7 +241,7 @@ public class FacadeDictionaryService {
     }
 
     private void temporalEvent(TemporalEventData temporalEventData) {
-        if(temporalEventData.getCreated() == null) {
+        if (temporalEventData.getCreated() == null) {
             temporalEventData.setCreated(LocalDateTime.now(Clock.systemUTC()));
         } else {
             temporalEventData.setUpdated(LocalDateTime.now(Clock.systemUTC()));

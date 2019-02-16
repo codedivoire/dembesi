@@ -110,7 +110,7 @@ public class UserServiceTest {
     @Test
     public void setGroup() {
         long id = user.getProfile().getId();
-        userService.setGroup(id,GROUP_ROOT);
+        userService.setGroupFromProfile(id,GROUP_ROOT);
         Profile profile = userManagementService.find(id);
         String name = profile.getUser()
                 .getGroup()

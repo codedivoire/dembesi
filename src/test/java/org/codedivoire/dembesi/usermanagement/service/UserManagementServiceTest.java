@@ -91,6 +91,22 @@ public class UserManagementServiceTest {
     }
 
     @Test
+    public void affectedGroup() {
+        User user = new User();
+        user.setFirstName("Konan");
+        user.setLastName("Koffi");
+        user.setPhoneNumber("+225 XX-XX-XX-XX");
+        user.setTemporalEventData(new TemporalEventData());
+        user.setProfile(profile);
+        profile.setUser(user);
+        Profile profile = userManagementService.affectedGroup(this.profile, "'GROUP_ROOT'");
+        user = profile.getUser();
+        assertNotNull(user);
+        Group group = user.getGroup();
+        assertNotNull(group);
+    }
+
+    @Test
     public void countProfile() {
         saveProfile();
         long size = userManagementService.countProfile();
@@ -100,6 +116,26 @@ public class UserManagementServiceTest {
     @Test
     public void save() {
         saveProfile();
+    }
+
+    @Test
+    public void saveAndEncodedPassword() {
+        String rawPassword = "password";
+        profile.setPassword(rawPassword);
+        User user = new User();
+        user.setFirstName("Konan");
+        user.setLastName("Koffi");
+        user.setPhoneNumber("+225 XX-XX-XX-XX");
+        user.setTemporalEventData(new TemporalEventData());
+        user.setProfile(profile);
+        user.setGroup(groupRoot);
+        String encodePassword = userManagementService.encodePassword(rawPassword);
+        profile.setPassword(encodePassword);
+        profile = userManagementService.saveAndEncodePassword(profile);
+        user.setProfile(profile);
+        entityManager.persist(user);
+        boolean matched = userManagementService.matchPassword(rawPassword, encodePassword);
+        assertTrue(matched);
     }
 
     @Test

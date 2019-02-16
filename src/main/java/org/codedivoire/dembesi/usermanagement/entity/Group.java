@@ -1,5 +1,6 @@
 package org.codedivoire.dembesi.usermanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,7 @@ public class Group {
     @JsonUnwrapped
     private TemporalEventData temporalEventData;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "group",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<User> users = new HashSet<>();
 

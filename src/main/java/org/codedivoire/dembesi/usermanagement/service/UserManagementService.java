@@ -1,7 +1,9 @@
 package org.codedivoire.dembesi.usermanagement.service;
 
-import org.codedivoire.dembesi.common.model.TemporalEventData;
+import org.codedivoire.dembesi.usermanagement.entity.Group;
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
+import org.codedivoire.dembesi.usermanagement.entity.User;
+import org.codedivoire.dembesi.usermanagement.repository.GroupRepository;
 import org.codedivoire.dembesi.usermanagement.repository.ProfileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +16,6 @@ import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -28,11 +28,14 @@ public class UserManagementService implements ProfileService, SocialUserDetailsS
 
     private final ProfileRepository profileRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    public UserManagementService(ProfileRepository profileRepository, PasswordEncoder passwordEncoder) {
+    public UserManagementService(ProfileRepository profileRepository, PasswordEncoder passwordEncoder
+            , GroupRepository groupRepository) {
         this.profileRepository = profileRepository;
         this.passwordEncoder = passwordEncoder;
+        this.groupRepository = groupRepository;
     }
 
 
@@ -46,6 +49,15 @@ public class UserManagementService implements ProfileService, SocialUserDetailsS
         return passwordEncoder.matches(rawPassword,passwordEncoded);
     }
 
+    public Profile affectedGroup(Profile profile,String groupName) {
+        LOG.debug("Debut du Process 'affectedGroup'");
+        Optional<Group> optionalGroup = groupRepository.findByName(groupName);
+        User user = profile.getUser();
+        if(user != null)
+            optionalGroup.ifPresent(user::setGroup);
+        return profile;
+    }
+
     @Transactional(readOnly = true)
     public long countProfile() {
         LOG.debug("Debut du Process 'countProfile'");
@@ -55,6 +67,15 @@ public class UserManagementService implements ProfileService, SocialUserDetailsS
     @Override
     public Profile save(Profile profile) {
         LOG.debug("Debut du Process 'save'");
+        return profileRepository.save(profile);
+    }
+
+    @Override
+    public Profile saveAndEncodePassword(Profile profile) {
+        LOG.debug("Debut du Process 'save'");
+        String rawPassword = profile.getPassword();
+        String encodePassword = encodePassword(rawPassword);
+        profile.setPassword(encodePassword);
         return profileRepository.save(profile);
     }
 

@@ -67,15 +67,26 @@ public class UserService {
         }
     }
 
-    public void setGroup(long profileId, String groupName) {
-        LOG.debug("Debut du Process 'setGroup'");
-        Optional<Profile> optionalProfile = profileRepository.findById(profileId);
+    public void setGroupFromProfile(long id, String groupName) {
+        LOG.debug("Debut du Process 'setGroupFromProfile'");
+        Optional<Profile> optionalProfile = profileRepository.findById(id);
         optionalProfile.ifPresent(profile -> {
             User user = profile.getUser();
-            Optional<Group> optionalGroup = groupRepository.findByNameIgnoreCase(groupName);
+            Optional<Group> optionalGroup = groupRepository.findByName(groupName);
             optionalGroup.ifPresent(user::setGroup);
             profile.addUser(user);
             profileRepository.save(profile);
+        });
+    }
+
+    public void setGroupFromUser(long id,String groupName) {
+        LOG.debug("Debut du Process 'setGroupFromUser'");
+        Optional<User> optionalUser = userRepository.findById(id);
+        optionalUser.ifPresent(profile -> {
+            User user = optionalUser.get();
+            Optional<Group> optionalGroup = groupRepository.findByName(groupName);
+            optionalGroup.ifPresent(user::setGroup);
+            userRepository.save(user);
         });
     }
 

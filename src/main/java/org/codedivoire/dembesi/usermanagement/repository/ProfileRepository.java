@@ -2,6 +2,7 @@ package org.codedivoire.dembesi.usermanagement.repository;
 
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
