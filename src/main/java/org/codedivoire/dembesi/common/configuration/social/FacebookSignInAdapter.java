@@ -1,4 +1,4 @@
-package org.codedivoire.dembesi.common.configuration;
+package org.codedivoire.dembesi.common.configuration.social;
 
 import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.codedivoire.dembesi.usermanagement.entity.Role;

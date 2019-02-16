@@ -1,4 +1,4 @@
-package org.codedivoire.dembesi.common.configuration;
+package org.codedivoire.dembesi.common.configuration.security;
 
 import org.codedivoire.dembesi.usermanagement.service.UserManagementService;
 import org.springframework.beans.factory.annotation.Autowired;

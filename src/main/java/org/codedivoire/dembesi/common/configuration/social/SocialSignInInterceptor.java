@@ -1,4 +1,4 @@
-package org.codedivoire.dembesi.common.configuration;
+package org.codedivoire.dembesi.common.configuration.social;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
