@@ -99,7 +99,7 @@ public class UserManagementServiceTest {
         user.setTemporalEventData(new TemporalEventData());
         user.setProfile(profile);
         profile.setUser(user);
-        Profile profile = userManagementService.affectedGroup(this.profile, "'GROUP_ROOT'");
+        Profile profile = userManagementService.affectedGroup(this.profile, "GROUP_ROOT");
         user = profile.getUser();
         assertNotNull(user);
         Group group = user.getGroup();
