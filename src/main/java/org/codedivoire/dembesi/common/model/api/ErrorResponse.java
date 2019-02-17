@@ -1,4 +1,4 @@
-package org.codedivoire.dembesi.common.model;
+package org.codedivoire.dembesi.common.model.api;
 
 import java.util.ArrayList;
 import java.util.List;

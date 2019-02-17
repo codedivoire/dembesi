@@ -1,39 +1,41 @@
 package org.codedivoire.dembesi.usermanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Christian Amani on 16/01/2019.
  */
 @Table(name = "profile")
 @Entity
-public class Profile implements UserDetails {
+public class Profile implements SocialUserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
     @NotEmpty
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
-    @NotNull
     @NotEmpty
     @Column
     private String username;
 
-    @NotNull
+    @JsonIgnore
     @NotEmpty
     @Column
     private String password;
@@ -63,7 +65,6 @@ public class Profile implements UserDetails {
     private Status status;
 
     @NotNull
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     @Column
     private Gender gender;
@@ -217,7 +218,7 @@ public class Profile implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<Role> getAuthorities() {
         return user.getRoles();
     }
 
@@ -229,6 +230,11 @@ public class Profile implements UserDetails {
         this.status = status;
     }
 
+    @Override
+    public String getUserId() {
+        return null;
+    }
+
     public enum Status {
         offline,
         online,
@@ -238,7 +244,12 @@ public class Profile implements UserDetails {
     }
 
     public enum Gender {
-        mal,
-        female
+        male,
+        female,
+        unknown;
+
+        public static Gender fromString(String gender) {
+            return gender.equals("male") ? Gender.male : Gender.female;
+        }
     }
 }

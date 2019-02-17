@@ -1,17 +1,23 @@
-package org.codedivoire.dembesi.common.configuration;
+package org.codedivoire.dembesi.common.configuration.security;
 
 import org.codedivoire.dembesi.usermanagement.service.UserManagementService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.social.security.SpringSocialConfigurer;
+
 
 /**
  * @author Christian Amani on 24/08/2018.
@@ -19,8 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private Logger LOG = LoggerFactory.getLogger(SecurityConfiguration.class);
 
     private final UserManagementService userManagementService;
 
@@ -30,15 +34,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Autowired
     public SecurityConfiguration(UserManagementService userManagementService
             , AccountAuthenticationSuccessHandler accountAuthenticationSuccessHandler
-            , AccountLogoutSuccessHandler accountLogoutSuccessHandler, PasswordEncoder passwordEncoder) {
+            , AccountLogoutSuccessHandler accountLogoutSuccessHandler, PasswordEncoder passwordEncoder, TokenAuthenticationFilter tokenAuthenticationFilter, TokenAuthenticationFilter tokenAuthenticationFilter1) {
         this.userManagementService = userManagementService;
         this.accountAuthenticationSuccessHandler = accountAuthenticationSuccessHandler;
         this.accountLogoutSuccessHandler = accountLogoutSuccessHandler;
         this.passwordEncoder = passwordEncoder;
+        this.tokenAuthenticationFilter = tokenAuthenticationFilter1;
     }
 
     @Bean
@@ -56,7 +62,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler(accountLogoutSuccessHandler)
                 .and()
                 .formLogin()
-                .successHandler(accountAuthenticationSuccessHandler);
+                .loginPage("/login").permitAll()
+                .successHandler(accountAuthenticationSuccessHandler)
+                .and()
+                .authorizeRequests()
+                .antMatchers("/login*", "/signin/**", "/signup/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/sign_in/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/sign_up/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .rememberMe()
+                .and()
+                .apply(new SpringSocialConfigurer())
+                .and()
+                .csrf()
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and()
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Autowired
@@ -64,4 +88,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider());
     }
 
+
+    @Bean
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 }

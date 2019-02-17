@@ -1,7 +1,7 @@
 package org.codedivoire.dembesi.dictionary.service;
 
-import org.codedivoire.dembesi.common.model.ApiResponse;
-import org.codedivoire.dembesi.common.model.StateResponse;
+import org.codedivoire.dembesi.common.model.api.ApiResponse;
+import org.codedivoire.dembesi.common.model.api.StateResponse;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.entity.*;
 import org.codedivoire.dembesi.dictionary.model.NameBodyRequest;
@@ -241,7 +241,7 @@ public class FacadeDictionaryService {
     }
 
     private void temporalEvent(TemporalEventData temporalEventData) {
-        if(temporalEventData.getCreated() == null) {
+        if (temporalEventData.getCreated() == null) {
             temporalEventData.setCreated(LocalDateTime.now(Clock.systemUTC()));
         } else {
             temporalEventData.setUpdated(LocalDateTime.now(Clock.systemUTC()));

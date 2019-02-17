@@ -10,5 +10,5 @@ import java.util.Optional;
  */
 public interface GroupRepository extends JpaRepository<Group,Long> {
 
-    Optional<Group> findByNameIgnoreCase(String name);
+    Optional<Group> findByName(String name);
 }
