@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;

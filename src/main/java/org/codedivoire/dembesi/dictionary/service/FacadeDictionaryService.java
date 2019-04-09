@@ -211,22 +211,45 @@ public class FacadeDictionaryService {
                     .greatResponseState(StateResponse.success)
                     .buildGreatResponse()).get();
         }
-        return null;
+        return buildFailResponseName(apiVersion);
     }
 
-    public Diction putAudioStream(MultipartFile multipartFile, Diction diction) {
+    public ApiResponse putAudioStream(long id, MultipartFile multipartFile, String apiVersion) {
         LOG.debug("Debut du Process 'putAudioStream'");
         try {
-            TemporalEventData temporalEventData = diction.getTemporalEventData();
-            temporalEvent(temporalEventData);
-            byte[] bytes = multipartFile.getBytes();
-            diction.setAudioStream(bytes);
-            Optional<Diction> optionalDiction = dictionService.save(diction);
-            return optionalDiction.orElse(null);
+            Optional<Diction> optionalDiction = dictionService.find(id);
+            if (optionalDiction.isPresent()) {
+                Diction diction = optionalDiction.get();
+                TemporalEventData temporalEventData = diction.getTemporalEventData();
+                temporalEvent(temporalEventData);
+                byte[] bytes = multipartFile.getBytes();
+                diction.setAudioStream(bytes);
+                diction = dictionService.save(diction)
+                        .orElse(null);
+                if (diction != null) {
+                    return BuilderApiResponse.builder()
+                            .greatResponseDomain(DOMAIN)
+                            .greatResponseApiVersion(apiVersion)
+                            .greatResponseItem(diction)
+                            .greatResponseState(StateResponse.success)
+                            .buildGreatResponse();
+                }
+            }
+            String message = new RequiredException("Diction")
+                    .getMessage();
+            return BuilderApiResponse.builder()
+                    .errorResponseState(apiVersion)
+                    .errorResponseState(StateResponse.fail)
+                    .errorResponseAddErrorData(DOMAIN, "the diction has not been saved", message)
+                    .buildErrorResponse();
         } catch (IOException e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
-            return null;
+            return BuilderApiResponse.builder()
+                    .errorResponseState(apiVersion)
+                    .errorResponseState(StateResponse.fail)
+                    .errorResponseAddErrorData(DOMAIN, "Reading the audio file to fail", e.getMessage())
+                    .buildErrorResponse();
         }
     }
 
