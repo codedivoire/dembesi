@@ -78,7 +78,3 @@ Après avoir cloné le repo, exécutez les commande ci-dessous :
 # Project Structure
 
 TODO
-
-# Git Commit Message Convention
-
-TODO
