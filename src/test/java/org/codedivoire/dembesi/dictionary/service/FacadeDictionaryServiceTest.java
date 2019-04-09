@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -35,6 +36,9 @@ public class FacadeDictionaryServiceTest {
 
     @MockBean
     MultipartFile multipartFile;
+
+    @Autowired
+    private TestEntityManager entityManager;
 
     @MockBean
     NameBodyRequest bodyRequest;
@@ -121,7 +125,8 @@ public class FacadeDictionaryServiceTest {
     @Test
     public void putAudioStream() {
         Diction diction = bodyRequest.getDiction();
-        diction = facadeDictionary.putAudioStream(multipartFile, diction);
-        assertNotNull(diction);
+        long id = (long) entityManager.persistAndGetId(diction);
+        ApiResponse apiResponse = facadeDictionary.putAudioStream(id, multipartFile, API_VERSION);
+        assertTrue(apiResponse instanceof GreatResponse);
     }
 }

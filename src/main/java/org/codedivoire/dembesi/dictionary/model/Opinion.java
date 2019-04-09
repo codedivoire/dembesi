@@ -1,7 +1,11 @@
 package org.codedivoire.dembesi.dictionary.model;
 
+import org.codedivoire.dembesi.usermanagement.entity.Profile;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * @author Christian Amani on 23/01/2019.

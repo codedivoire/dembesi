@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.codedivoire.dembesi.common.model.TemporalEventData;
 import org.codedivoire.dembesi.dictionary.model.Opinion;
 import org.codedivoire.dembesi.dictionary.model.State;
+import org.codedivoire.dembesi.usermanagement.entity.Profile;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -47,6 +48,10 @@ public class Diction {
     @Value("classpath:/org.codedivoire.dembesi.dictionary.model.Opinion")
     @JsonUnwrapped
     private Opinion opinion;
+
+    @ManyToOne(targetEntity = Profile.class)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
 
     public Diction() {
     }
@@ -113,5 +118,13 @@ public class Diction {
 
     public void setTemporalEventData(TemporalEventData temporalEventData) {
         this.temporalEventData = temporalEventData;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }
