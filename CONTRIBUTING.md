@@ -77,4 +77,31 @@ Après avoir cloné le repo, exécutez les commande ci-dessous :
 
 # Project Structure
 
-TODO
+ - src
+   - main
+     - java
+       - org.codedivoire.dembesi
+         - common:
+         This package groups the common code which is shared between the other project packages
+           - configuration
+           - model
+           - service
+         - dictionary:
+         This package contain name dictionary code implementation logic. The name dictionary manage all contents binded a name such as Etymology ; Diction ; Origin etc ...
+           - entity
+           - model
+           - repository
+           - restcontroller
+           - service
+           - utils
+         - usermanagement:
+         This package contain user management code implementation logic. At this is level that the signin and signup is manage.
+           - controller
+           - entity
+           - model
+           - repository
+           - restcontroller
+           - service
+     - resources
+   - test
+     - java
