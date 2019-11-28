@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.codedivoire</groupId>
+  <artifactId>dembesi</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>dembesi</name>
+  <description>DembeSi est une initiative de la communauté CodeDivoire visant à mettre en ligne tous
+    les noms des groupes ethniques de la Côte D'Ivoire dans un format multimédia dans le but de les
+    préserver et les documenter. Ce projet vise à promouvoir la culture Ivoirienne et de pérenniser
+    l'identité africaine.
+  </description>
+
+
+  <developers>
+    <developer>
+      <id>devalves1993</id>
+      <name>Christian Amani</name>
+      <email>alvesamani@gmail.com</email>
+      <organization>CodeDivoire</organization>
+      <organizationUrl>https://codedivoire.slack.com/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Cote_d_Ivoire/Abidjan</timezone>
+    </developer>
+  </developers>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.1.RELEASE</version>
+    <relativePath/> <!-- lookup parent from profileRepository -->
+  </parent>
+
+  <properties>
+
+
+    <spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+    <!-- The spring framework version should match the one managed by
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
+    <spring.version>5.1.10.RELEASE</spring.version>
+    <!-- The hibernate version should match the one managed by
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
+
+    <java.version>11</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <project.testresult.directory>${project.build.directory}/test-results
+    </project.testresult.directory>
+
+    <maven.version>3.6.0</maven.version>
+    <mapstruct.version>1.3.1.Final</mapstruct.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+    <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+    <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+    <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
+    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+    <properties-maven-plugin.version>1.0.0</properties-maven-plugin.version>
+
+    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
+    <jacoco.reportFolder>${project.build.directory}/jacoco</jacoco.reportFolder>
+    <jacoco.utReportFile>${jacoco.reportFolder}/test.exec</jacoco.utReportFile>
+    <jacoco.itReportFile>${jacoco.reportFolder}/integrationTest.exec</jacoco.itReportFile>
+    <junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
+    <junit.itReportFolder>${project.testresult.directory}/integrationTest</junit.itReportFolder>
+
+    <argLine>-Xmx512m</argLine>
+
+    <git-commit-id-plugin.version>2.2.6</git-commit-id-plugin.version>
+
+    <spring-boot-admin.version>2.1.5</spring-boot-admin.version>
+
+    <problem-spring.version>0.25.0</problem-spring.version>
+    <problem-spring-web.version>${problem-spring.version}</problem-spring-web.version>
+    <problem-spring-webflux.version>${problem-spring.version}</problem-spring-webflux.version>
+
+    <jjwt.version>0.10.7</jjwt.version>
+    <commons-io.version>2.6</commons-io.version>
+    <spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
+    <springfox.version>2.9.2</springfox.version>
+    <testcontainers.version>1.12.2</testcontainers.version>
+
+
+    <hibernate.version>5.4.8.Final</hibernate.version>
+    <hazelcast-hibernate53.version>1.3.2</hazelcast-hibernate53.version>
+    <validation-api.version>2.0.1.Final</validation-api.version>
+    <caffeine.version>2.8.0</caffeine.version>
+    <!-- The javassist version should match the one managed by
+        https://mvnrepository.com/artifact/org.hibernate/hibernate-core/${hibernate.version} -->
+    <javassist.version>3.23.1-GA</javassist.version>
+    <!-- The liquibase version should match the one managed by
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/${spring-boot.version} -->
+    <liquibase.version>3.6.3</liquibase.version>
+    <liquibase-hibernate5.version>3.6</liquibase-hibernate5.version>
+
+
+  </properties>
+
+  <dependencies>
+
+    <!-- Apache common -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
+    </dependency>
+    <!-- Apache common -->
+
+    <!-- Container -->
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>database-commons</artifactId>
+      <version>${testcontainers.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.testcontainers</groupId>
+          <artifactId>testcontainers</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- Container -->
+
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!-- Test Dependencies -->
+
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>de.codecentric</groupId>
+        <artifactId>spring-boot-admin-dependencies</artifactId>
+        <version>${spring-boot-admin.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <annotationProcessorPaths>
+            <!-- For MapStruct DTO generation -->
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${mapstruct.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+        <configuration>
+          <source>8</source>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.liquibase</groupId>
+        <artifactId>liquibase-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+      </plugin>
+    </plugins>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+          <configuration>
+            <!-- Due to spring-boot repackage, without adding this property test classes are not found
+                 See https://github.com/spring-projects/spring-boot/issues/6254 -->
+            <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+            <!-- Force alphabetical order to have a reproducible build -->
+            <runOrder>alphabetical</runOrder>
+            <reportsDirectory>${junit.itReportFolder}</reportsDirectory>
+            <includes>
+              <include>**/*IT*</include>
+            </includes>
+          </configuration>
+          <executions>
+            <execution>
+              <id>integration-test</id>
+              <goals>
+                <goal>integration-test</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>verify</id>
+              <goals>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>${maven-enforcer-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>enforce-versions</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>enforce-dependencyConvergence</id>
+              <configuration>
+                <rules>
+                  <DependencyConvergence/>
+                </rules>
+                <fail>false</fail>
+              </configuration>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <rules>
+              <requireMavenVersion>
+                <message>You are running an older version of Maven. JHipster requires at least Maven
+                  ${maven.version}
+                </message>
+                <version>[${maven.version},)</version>
+              </requireMavenVersion>
+              <requireJavaVersion>
+                <message>You are running an incompatible version of Java. DembeSi supports JDK 8 to
+                  12.
+                </message>
+                <version>[1.8,13)</version>
+              </requireJavaVersion>
+            </rules>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>default-resources</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>copy-resources</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                <useDefaultDelimiters>false</useDefaultDelimiters>
+                <delimiters>
+                  <delimiter>#</delimiter>
+                </delimiters>
+                <resources>
+                  <resource>
+                    <directory>src/main/resources/</directory>
+                    <filtering>true</filtering>
+                    <includes>
+                      <include>config/*.properties</include>
+                    </includes>
+                  </resource>
+                  <resource>
+                    <directory>src/main/resources/</directory>
+                    <filtering>false</filtering>
+                    <excludes>
+                      <exclude>config/*.properties</exclude>
+                    </excludes>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+          <configuration>
+            <!-- Force alphabetical order to have a reproducible build -->
+            <runOrder>alphabetical</runOrder>
+            <reportsDirectory>${junit.utReportFolder}</reportsDirectory>
+            <excludes>
+              <exclude>**/*IntegrationTest*</exclude>
+              <exclude>**/*IT*</exclude>
+            </excludes>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>${jacoco-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>pre-unit-tests</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+              <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <destFile>${jacoco.utReportFile}</destFile>
+              </configuration>
+            </execution>
+            <!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
+            <execution>
+              <id>post-unit-test</id>
+              <phase>test</phase>
+              <goals>
+                <goal>report</goal>
+              </goals>
+              <configuration>
+                <dataFile>${jacoco.utReportFile}</dataFile>
+                <outputDirectory>${jacoco.reportFolder}</outputDirectory>
+              </configuration>
+            </execution>
+            <execution>
+              <id>pre-integration-tests</id>
+              <goals>
+                <goal>prepare-agent-integration</goal>
+              </goals>
+              <configuration>
+                <!-- Sets the path to the file which contains the execution data. -->
+                <destFile>${jacoco.itReportFile}</destFile>
+              </configuration>
+            </execution>
+            <!-- Ensures that the code coverage report for integration tests is created after integration tests have been run -->
+            <execution>
+              <id>post-integration-tests</id>
+              <phase>post-integration-test</phase>
+              <goals>
+                <goal>report-integration</goal>
+              </goals>
+              <configuration>
+                <dataFile>${jacoco.itReportFile}</dataFile>
+                <outputDirectory>${jacoco.reportFolder}</outputDirectory>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>pl.project13.maven</groupId>
+          <artifactId>git-commit-id-plugin</artifactId>
+          <version>${git-commit-id-plugin.version}</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>revision</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <failOnNoGitDirectory>false</failOnNoGitDirectory>
+            <generateGitPropertiesFile>true</generateGitPropertiesFile>
+            <includeOnlyProperties>
+              <includeOnlyProperty>^git.commit.id.abbrev$</includeOnlyProperty>
+              <includeOnlyProperty>^git.commit.id.describe$</includeOnlyProperty>
+              <includeOnlyProperty>^git.branch$</includeOnlyProperty>
+            </includeOnlyProperties>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.liquibase</groupId>
+          <artifactId>liquibase-maven-plugin</artifactId>
+          <version>${liquibase.version}</version>
+          <configuration>
+            <changeLogFile>${project.basedir}/src/main/resources/liquibase/master.xml
+            </changeLogFile>
+            <diffChangeLogFile>
+              ${project.basedir}/src/main/resources/liquibase/changelog/${maven.build.timestamp}_changelog.xml
+            </diffChangeLogFile>
+            <driver></driver>
+            <url></url>
+            <username></username>
+            <password></password>
+            <defaultSchemaName></defaultSchemaName>
+            <verbose>true</verbose>
+            <logging>debug</logging>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-core</artifactId>
+              <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.javassist</groupId>
+              <artifactId>javassist</artifactId>
+              <version>${javassist.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.liquibase.ext</groupId>
+              <artifactId>liquibase-hibernate5</artifactId>
+              <version>${liquibase-hibernate5.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-data-jpa</artifactId>
+              <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>javax.validation</groupId>
+              <artifactId>validation-api</artifactId>
+              <version>${validation-api.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-core</artifactId>
+              <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-context</artifactId>
+              <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-beans</artifactId>
+              <version>${spring.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <finalName>dembesi</finalName>
+  </build>
+
+  <modules>
+    <module>core</module>
+    <module>api-rest</module>
+  </modules>
+</project>
