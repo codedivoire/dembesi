@@ -1,4 +1,4 @@
-package org.codedivoire.core.noyaupartage;
+package org.codedivoire.core.kernelshared;
 
 /**
  * Gestionnaire de requête de base

@@ -3,7 +3,7 @@ package org.codedivoire.core.composant.usermanagement.application.command;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.codedivoire.core.noyaupartage.Constants;
+import org.codedivoire.core.kernelshared.Constants;
 
 /**
  * Commande pour la mise à jour d'un mot de passe

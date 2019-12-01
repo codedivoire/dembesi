@@ -1,4 +1,4 @@
-package org.codedivoire.core.noyaupartage;
+package org.codedivoire.core.kernelshared;
 
 /**
  * Gestionnaire de base des commandes
@@ -7,5 +7,5 @@ package org.codedivoire.core.noyaupartage;
  */
 public interface CommandManager<C> {
 
-    void executed(C commande);
+  void executed(C command);
 }

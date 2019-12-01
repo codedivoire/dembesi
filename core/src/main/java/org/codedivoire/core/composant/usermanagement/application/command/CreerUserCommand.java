@@ -11,7 +11,7 @@ import org.codedivoire.core.composant.usermanagement.domaine.entity.ProfilePhysi
 import org.codedivoire.core.composant.usermanagement.domaine.entity.ProfilePhysique.Civility;
 import org.codedivoire.core.composant.usermanagement.domaine.entity.ProfilePhysique.Gender;
 import org.codedivoire.core.composant.usermanagement.domaine.valueobject.Address;
-import org.codedivoire.core.noyaupartage.Constants;
+import org.codedivoire.core.kernelshared.Constants;
 
 /**
  * Commande pour la création d'un nouveau utilisateur physique

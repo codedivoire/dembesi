@@ -1,4 +1,4 @@
-package org.codedivoire.core.noyaupartage;
+package org.codedivoire.core.kernelshared;
 
 /**
  * Classe pour la définition des constantes

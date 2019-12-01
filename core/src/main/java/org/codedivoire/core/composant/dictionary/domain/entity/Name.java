@@ -16,7 +16,7 @@ import org.codedivoire.core.composant.dictionary.domain.valueobject.State;
  */
 public class Name extends WordDictionary implements Serializable {
 
-  private String name;
+  private String value;
   private List<Definition> definitions = new ArrayList<>();
   private List<Diction> dictions = new ArrayList<>();
   private List<Etymology> etymologies = new ArrayList<>();
@@ -26,16 +26,16 @@ public class Name extends WordDictionary implements Serializable {
   public Name() {
   }
 
-  public Name(String name) {
-    this.name = name;
+  public Name(String value) {
+    this.value = value;
   }
 
-  public String getName() {
-    return name;
+  public String getValue() {
+    return value;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setValue(String value) {
+    this.value = value;
   }
 
   public List<Definition> getDefinitions() {
@@ -83,11 +83,12 @@ public class Name extends WordDictionary implements Serializable {
     this.mediaLinkList = mediaLinkList;
   }
 
-  public void addNewDefinition(String content, String englishContent, String localLanguage) {
+  public Definition addNewDefinition(String content, String englishContent, String localLanguage) {
     Definition definition = new Definition(content, englishContent, localLanguage);
     definition.setOwner(this);
     definition.setState(State.NEW);
     definitions.add(definition);
+    return definition;
   }
 
   public void removeDefinition(Definition definition) {
@@ -108,11 +109,12 @@ public class Name extends WordDictionary implements Serializable {
     optionalDefinition.ifPresent(definition -> definition.setState(state));
   }
 
-  public void addNewDiction(String pronunuciation, String uriAudio) {
+  public Diction addNewDiction(String pronunuciation, String uriAudio) {
     Diction diction = new Diction(pronunuciation, uriAudio);
     diction.setOwner(this);
     diction.setState(State.NEW);
     dictions.add(diction);
+    return diction;
   }
 
   public void removeDiction(Diction diction) {
@@ -217,7 +219,7 @@ public class Name extends WordDictionary implements Serializable {
   @Override
   public int hashCode() {
     return Objects
-        .hash(super.hashCode(), name, definitions, dictions, etymologies, geoLocations,
+        .hash(super.hashCode(), value, definitions, dictions, etymologies, geoLocations,
             mediaLinkList);
   }
 }

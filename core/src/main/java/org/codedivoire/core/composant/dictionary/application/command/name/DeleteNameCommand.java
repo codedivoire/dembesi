@@ -1,4 +1,4 @@
-package org.codedivoire.core.composant.dictionary.application.command;
+package org.codedivoire.core.composant.dictionary.application.command.name;
 
 /**
  * @author Christian Amani 2019-11-26

@@ -1,4 +1,4 @@
-package org.codedivoire.core.composant.dictionary.application.command;
+package org.codedivoire.core.composant.dictionary.application.command.name;
 
 import org.codedivoire.core.composant.dictionary.domain.entity.Name;
 
