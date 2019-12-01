@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/codedivoire/dembesi.svg?branch=master)](https://travis-ci.org/codedivoire/dembesi)
+
 # Présentation du Projet
 
 
