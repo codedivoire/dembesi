@@ -55,11 +55,11 @@
     <project.testresult.directory>${project.build.directory}/test-results
     </project.testresult.directory>
 
-    <maven.version>3.6.0</maven.version>
+    <maven.version>3.3.9</maven.version>
     <mapstruct.version>1.3.1.Final</mapstruct.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
-    <maven-enforcer-plugin.version>3.0.0-M2</maven-enforcer-plugin.version>
+    <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
     <maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
     <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
@@ -299,7 +299,7 @@
           <configuration>
             <rules>
               <requireMavenVersion>
-                <message>You are running an older version of Maven. JHipster requires at least Maven
+                <message>You are running an older version of Maven. DembeSi requires at least Maven
                   ${maven.version}
                 </message>
                 <version>[${maven.version},)</version>
