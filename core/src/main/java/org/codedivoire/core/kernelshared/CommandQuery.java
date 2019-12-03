@@ -5,7 +5,7 @@ package org.codedivoire.core.kernelshared;
  *
  * @author Christian Amani 2019-10-22
  */
-public interface CommandQuery<RES, REQ> {
+public interface CommandQuery<REQ, RES> {
 
   RES query(REQ requete);
 }

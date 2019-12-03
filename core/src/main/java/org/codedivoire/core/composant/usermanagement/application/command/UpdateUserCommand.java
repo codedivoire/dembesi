@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
  *
  * @author Christian Amani 2019-10-28
  */
-public class UpdateUserCommand extends CreerUserCommand {
+public class UpdateUserCommand extends CreateUserCommand {
 
   @NotNull
   private UUID utilisateurId;
